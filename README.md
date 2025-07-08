@@ -92,7 +92,7 @@ sudo ./setup_env.sh
 **Standalone Interactive Multi-Model Distributed Training (No dependencies on other projects)**
 
 A standalone Docker-based solution for distributed PyTorch training on AMD ROCm GPUs, supporting both single-node and multi-node setups.
-(**Note:** Multi-node support is implemented in this framework, but has not yet been validated in a physical multi-node environment.)
+(**Note:** Multi-node support is implemented in this framework, but has not yet been validated in a real multi-node environment.)
 
 **Key Features:**
 - **Multi-GPU training**: Support for 1-8 GPUs per node
@@ -178,40 +178,41 @@ Our distributed training framework demonstrated excellent scaling characteristic
 ./run-ddp.sh 1 script_single_node
 ```
 - **GPU allocation**: 1 × MI300X
-- **Batch size**: 512
-- **Training time**: ~1.18 minutes per epoch
-- **Total training**: ~1.97 hours (100 epochs, 7079 seconds)
+- **Batch size**: 1024 (per GPU, total 1024)
+- **Training time**: ~82.30 seconds per epoch (average from log)
+- **Total training**: ~2.29 hours (100 epochs, 8230.3502 seconds)
 
 **Dual GPU Setup (MI300X):**
 ```bash
 ./run-ddp.sh 2 script_single_node  
 ```
 - **GPU allocation**: 2 × MI300X 
-- **Batch size**: 256 per GPU (512 total, same as 1 GPU)
-- **Training time**: ~0.63 minutes per epoch
-- **Total training**: ~1.04 hours (100 epochs, 3754 seconds)
-- **Speed improvement**: 1.89x faster than single GPU
+- **Batch size**: 1024 per GPU (total 2048)
+- **Training time**: ~43.17 seconds per epoch (average from log)
+- **Total training**: ~1.20 hours (100 epochs, 4316.8264 seconds)
+- **Speed improvement**: 1.91x faster than single GPU
 
 #### Training Time Performance Table
 
-| Configuration | GPU Count | Batch Size | Time/Epoch | Total Time (100 epochs) | Speed Improvement |
-|---------------|-----------|------------|------------|-------------------------|-------------------|
-| Single GPU    | 1 × MI300X | 512       | 1.18 min   | 1.97 hours              | Baseline          |
-| Dual GPU      | 2 × MI300X | 512 total | 0.63 min   | 1.04 hours              | **1.89x faster**  |
+| Configuration | GPU Count | Batch Size (Per GPU) | Batch Size (Total) | Time/Epoch | Total Time (100 epochs) | Speed Improvement |
+|---------------|-----------|----------------------|--------------------|------------|-------------------------|-------------------|
+| Single GPU    | 1 × MI300X | 1024                | 1024               | 82.30 sec  | 2.29 hours              | Baseline          |
+| Dual GPU      | 2 × MI300X | 1024                | 2048               | 43.17 sec  | 1.20 hours              | **1.91x faster**  |
 
 #### Scaling Performance Insights
 
 **Training Time Comparison:**
-- **1 GPU**: 1.97 hours total (70.8 sec/epoch × 100 epochs)
-- **2 GPU**: 1.04 hours total (37.5 sec/epoch × 100 epochs)  
-- **Time saved**: 55.4 minutes (47% reduction)
-- **Scaling efficiency**: 94.5% (near-perfect linear scaling)
+- **1 GPU**: 2.29 hours total (82.30 sec/epoch × 100 epochs)
+- **2 GPU**: 1.20 hours total (43.17 sec/epoch × 100 epochs)  
+- **Time saved**: 1.09 hours (47.6% reduction)
+- **Scaling efficiency**: 95.3% (near-perfect linear scaling)
 
 **Benefits of Multi-GPU DDP:**
-- **1.89x speed improvement**: Dual GPU reduces training time by 47%
-- **Linear scaling**: 94.5% efficiency indicates excellent parallelization
+- **1.91x speed improvement**: Dual GPU reduces training time by 47.6%
+- **Linear scaling**: 95.3% efficiency indicates excellent parallelization
 - **Parallel efficiency**: ROCm DDP shows optimal GPU utilization
-- **Cost per epoch**: Reduced from 70.8 to 37.5 seconds per epoch
+- **Cost per epoch**: Reduced from 82.30 to 43.17 seconds per epoch
+- **Note on batch size**: The dual GPU setup uses a larger global batch size (2048 vs. 1024 for single GPU), which may affect convergence. Use `--batch_size_scaled` to maintain the same global batch size for consistent convergence behavior.
 
 #### Sample Training Commands
 
@@ -231,6 +232,11 @@ Our distributed training framework demonstrated excellent scaling characteristic
 
 # Or with script mode parameters
 ./run-ddp.sh 2 script_single_node "--model resnet101 --learning_rate 0.002 --optimizer sgd --batch_size 1024 --num_epochs 100"
+```
+
+**2 GPU Demo with Scaled Batch Size (for consistent convergence):**
+```bash
+./run-ddp.sh 2 script_single_node "--model resnet101 --learning_rate 0.002 --optimizer sgd --batch_size 1024 --num_epochs 100 --batch_size_scaled"
 ```
 
 **Multi-node Scaling (Future):**
