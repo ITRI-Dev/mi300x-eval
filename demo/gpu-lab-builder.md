@@ -2,10 +2,10 @@
 
 ## What is GPU Lab Builder?
 
-GPU Lab Builder is a tool that automatically detects your GPU setup (NVIDIA or AMD) and builds the Docker container for machine learning.
+GPU Lab Builder is a tool that automatically detects your GPU setup (AMD or NVIDIA) and builds the Docker container for machine learning.
 
 **What it does:**
-- **Auto-detects** your GPU type (NVIDIA CUDA or AMD ROCm)
+- **Auto-detects** your GPU type (AMD ROCm or NVIDIA CUDA)
 - **Finds GPU tools** even in non-standard installation paths
 - **Builds ready-to-use** machine learning containers
 - **Validates everything** before starting
