@@ -43,17 +43,17 @@ Three independent projects that can be used separately or together:
 ### 1. [GPU Lab Builder](https://github.com/ITRI-Dev/gpu-lab-builder)
 **Automatic GPU-enabled Docker Image Creation Tool**
 
-A automatic script that detects your GPU environment (NVIDIA CUDA or AMD ROCm) and builds ready-to-use machine learning Docker containers.
+A automatic script that detects your GPU environment (AMD ROCm or NVIDIA CUDA) and builds ready-to-use machine learning Docker containers.
 
 **Key Features:**
-- **Auto-detection**: Automatically finds NVIDIA or ROCm environments
+- **Auto-detection**: Automatically finds ROCm or NVIDIA environments
 - **Path-smart**: Searches common GPU tool installation paths
 - **Interactive setup**: Guides you through the build process
 - **Pre-validation**: Checks all required files before building
 
 **What You Get:**
-- **NVIDIA Lab**: ~10.2GB container with TensorFlow GPU, SSH, monitoring tools
 - **ROCm Lab**: ~60.3GB container with PyTorch ROCm, SSH, testing tools
+- **NVIDIA Lab**: ~10.2GB container with TensorFlow GPU, SSH, monitoring tools
 - Ready-to-use GPU development environments
 
 **Quick Start:**
