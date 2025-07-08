@@ -65,7 +65,7 @@ chmod +x create_image.sh
 ### 2. [GPU Docker Service](https://github.com/ITRI-Dev/gpu-docker-service)
 **RESTful API for GPU Container Management**
 
-A FastAPI-based service that makes managing GPU containers as easy as a web API call. Perfect for VDI systems and multi-user GPU environments.
+A FastAPI-based service that makes managing GPU containers as easy as a web API call. Perfect for VDI systems and multi-user GPU environments. The service supports both ROCm and NVIDIA environments, providing unified container management regardless of your GPU hardware.
 
 **Key Features:**
 - **Auto GPU allocation**: Smart GPU resource management
@@ -73,6 +73,7 @@ A FastAPI-based service that makes managing GPU containers as easy as a web API 
 - **Resource monitoring**: Real-time CPU, memory, and GPU usage
 - **Snapshot & backup**: Save and restore container states
 - **Cross-machine deployment**: Move containers between systems
+- **Dual GPU support**: Works with both ROCm and NVIDIA setups
 
 **API Highlights:**
 - Create GPU containers with automatic resource allocation
